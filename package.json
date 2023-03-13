@@ -1,0 +1,26 @@
+{
+  "name": "mandatory-documentation",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masp1234/documentation.git"
+  },
+  "keywords": [
+    "documentation"
+  ],
+  "author": "masp1234",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/masp1234/documentation/issues"
+  },
+  "homepage": "https://github.com/masp1234/documentation#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
