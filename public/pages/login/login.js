@@ -15,9 +15,11 @@ document.getElementById('login-button').addEventListener('click', async () => {
         })
     }
     const response = await fetchData('http://localhost:8080/api/login', settings)
-    console.log(response)
-    if (response.message === 'login successful') {
-        window.location.href = 'http://localhost:8080/admin'
+    if (response.redirectURL) {
+        window.location.href = response.redirectURL
+    }
+    else {
+        console.log(response.message)
     }
     
 
