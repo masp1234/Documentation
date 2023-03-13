@@ -20,6 +20,19 @@ app.get('/admin', (req, res) => {
     res.status(200).sendFile(path.resolve('public/pages/admin/create-new-page.html'))
 })
 
+app.get('/documentation/:pageName', (req, res) => {
+    const pageName = req.params.pageName
+    const filePath = `public/pages/documentation/${pageName}.html`
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).send({ message: `The page with name: ${pageName} does not exist` })
+    }
+
+    return res.sendFile(path.resolve(filePath))
+
+
+    
+})
+
 app.post('/api/login', (req, res) => {
     console.log(req.body)
     const { username, password } = req.body
