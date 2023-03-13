@@ -20,6 +20,13 @@ app.get('/admin', (req, res) => {
     res.status(200).sendFile(path.resolve('public/pages/admin/create-new-page.html'))
 })
 
+app.get('/api/documentation', (req, res) => {
+    // TODO make a fetch from frontend that creates a dropdown menu with these files
+    fs.readdir('public/pages/documentation/', (error, files) => {
+        res.status(200).send({ data: files })
+    })
+})
+
 app.get('/documentation/:pageName', (req, res) => {
     const pageName = req.params.pageName
     const filePath = `public/pages/documentation/${pageName}.html`
