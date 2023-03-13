@@ -1,16 +1,9 @@
 import express from 'express'
 import path from 'path'
-import validator from 'validator'
-import MarkdownIt from 'markdown-it'
 import fs from 'fs'
 
 const app = express()
 const PORT = 8080
-const md = MarkdownIt({
-    html: true,
-    linkify: true,
-    typographer: true
-})
 
 app.use(express.static('public'))
 app.use(express.json())
@@ -43,14 +36,29 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/pages', (req, res) => {
     const { pageName, pageContent } = req.body
-    const html = md.render(pageContent)
-    fs.writeFile(path.resolve(`public/pages/documentation/${pageName}.html`), html, error => {
+    const filePath = `public/pages/documentation/${req.body.pageName}.html`
+    if (fs.existsSync(filePath)) return res.status(418).send( {message: `A file with the name: ${pageName} already exists`} )
+    const template = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+            <body>
+            ${req.body.pageContent}
+                
+            </body>
+            </html>`
+
+    fs.writeFile(path.resolve(`public/pages/documentation/${req.body.pageName}.html`), template, error => {
         if (error) {
             console.log(error)
         }
     })
 
-    console.log(html)
     return res.status(200).send( {message: 'success'} )
 })
 
