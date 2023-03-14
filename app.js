@@ -21,12 +21,20 @@ app.get('/admin', (req, res) => {
 })
 
 app.get('/api/documentation', (req, res) => {
-    // TODO make a fetch from frontend that creates a dropdown menu with these files
     fs.readdir('public/pages/documentation/', (error, files) => {
-        // ændrer '-' til ' ' og fjerne .html extenstion fra filerne, så de kan bruges i frontend i en dropdown
-        const fileNames = files.map(file => file.replaceAll('-', ' ').slice(0, -5))
+        // returns pathName used to navigate to an endpoint and a displayName to display in the dropdown menu
+        const fileNames = files.map(fileName => {
+            return {
+                pathName: fileName.slice(0, -5),
+                displayName: fileName.replaceAll('-', ' ').slice(0, -5)
+            }
+        })
         res.status(200).send({ data: fileNames })
     })
+})
+
+app.get('/documentation', (req, res) => {
+    return res.status(200).sendFile(path.resolve('public/pages/documentation-home/documentation.html'))
 })
 
 app.get('/documentation/:pageName', (req, res) => {
@@ -48,12 +56,11 @@ app.post('/api/login', (req, res) => {
     else {
         return res.status(401).send({ message: 'Login failed' })
     }
-    // console.log(req.body)
 })
 
 app.post('/api/pages', (req, res) => {
     const { pageContent } = req.body
-    const pageName = req.body.pageName.replaceAll(' ', '-')
+    const pageName = req.body.pageName.trim().replaceAll(' ', '-')
     const filePath = `public/pages/documentation/${pageName}.html`
     if (fs.existsSync(filePath)) return res.status(418).send( {message: `A file with the name: ${pageName} already exists`} )
 
