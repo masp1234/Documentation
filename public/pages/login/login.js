@@ -1,4 +1,4 @@
-import { fetchData } from '../../assets/js/util.js'
+import { fetchData, BASE_URL } from '../../assets/js/util.js'
 
 document.getElementById('login-button').addEventListener('click', async () => {
     const username = document.getElementById('login-username').value
@@ -14,7 +14,7 @@ document.getElementById('login-button').addEventListener('click', async () => {
             password: password
         })
     }
-    const response = await fetchData('http://localhost:8080/api/login', settings)
+    const response = await fetchData(`${BASE_URL}/api/login`, settings)
     if (response.redirectURL) {
         window.location.href = response.redirectURL
     }

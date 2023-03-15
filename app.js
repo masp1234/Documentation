@@ -21,10 +21,20 @@ app.get('/admin', (req, res) => {
 })
 
 app.get('/api/documentation', (req, res) => {
-    // TODO make a fetch from frontend that creates a dropdown menu with these files
     fs.readdir('public/pages/documentation/', (error, files) => {
-        res.status(200).send({ data: files })
+        // returns pathName used to navigate to an endpoint and a displayName to display in the dropdown menu
+        const fileNames = files.map(fileName => {
+            return {
+                pathName: fileName.slice(0, -5),
+                displayName: fileName.replaceAll('-', ' ').slice(0, -5)
+            }
+        })
+        res.status(200).send({ data: fileNames })
     })
+})
+
+app.get('/documentation', (req, res) => {
+    return res.status(200).sendFile(path.resolve('public/pages/documentation-home/documentation.html'))
 })
 
 app.get('/documentation/:pageName', (req, res) => {
@@ -34,10 +44,7 @@ app.get('/documentation/:pageName', (req, res) => {
         return res.status(404).send({ message: `The page with name: ${pageName} does not exist` })
     }
 
-    return res.sendFile(path.resolve(filePath))
-
-
-    
+    return res.sendFile(path.resolve(filePath))   
 })
 
 app.post('/api/login', (req, res) => {
@@ -45,18 +52,18 @@ app.post('/api/login', (req, res) => {
     if (username === 'bob' && password === "123") {
         // kan ikke redirecte med res.redirect(url), da fetchData brokker sig over, at en html fil sendt med res.sendFile ikke er valid JSON. Prøv at finde ud af hvordan
         return res.status(200).send( {message: 'Login successful', redirectURL: '/admin'} )
-        
     }
     else {
         return res.status(401).send({ message: 'Login failed' })
     }
-    // console.log(req.body)
 })
 
 app.post('/api/pages', (req, res) => {
-    const { pageName, pageContent } = req.body
-    const filePath = `public/pages/documentation/${req.body.pageName}.html`
+    const { pageContent } = req.body
+    const pageName = req.body.pageName.trim().replaceAll(' ', '-')
+    const filePath = `public/pages/documentation/${pageName}.html`
     if (fs.existsSync(filePath)) return res.status(418).send( {message: `A file with the name: ${pageName} already exists`} )
+
     const template = `
             <!DOCTYPE html>
             <html lang="en">
@@ -67,17 +74,15 @@ app.post('/api/pages', (req, res) => {
                 <title>Document</title>
             </head>
             <body>
-            ${req.body.pageContent}
-                
+            ${pageContent}
             </body>
             </html>`
 
-    fs.writeFile(path.resolve(`public/pages/documentation/${req.body.pageName}.html`), template, error => {
+    fs.writeFile(path.resolve(filePath), template, error => {
         if (error) {
             console.log(error)
         }
     })
-
     return res.status(200).send( {message: 'success'} )
 })
 
@@ -87,3 +92,7 @@ app.listen(PORT, error => {
     }
     console.log(`Server is listening on port: ${PORT}`)
 })
+
+export {
+    app
+}
