@@ -1,4 +1,4 @@
-import { fetchData, BASE_URL } from "../../assets/js/util.js"
+import { fetchData, BASE_URL } from "./util.js"
 
 const documentationFiles = await fetchData(`${BASE_URL}/api/documentation`)
 

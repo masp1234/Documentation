@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+
     <title>Document</title>
 </head>
 <body>
-    <label for="new-page-name">Choose a name for the page</label>
-    <input id="new-page-name" type="text">
-    <textarea id="new-page-text"><h1>Type your html here</h1>
-    </textarea>
+    <header>
+        <nav>
+            <a class="text" href="/login">Log in</a>
+            <a class="text" href="/documentation">Documentation</a>
+        </nav>
+    </header>
+    <main id="container">
+        <label class="text" for="new-page-name">Choose a name for the page</label>
+        <input id="new-page-name" type="text">
+        <textarea class="text" id="new-page-text" placeholder="Type your HTML here!"></textarea>
+     
 
-    <button id="new-page-submit">Submit Page</button>
+        <button class="submit-button" id="new-page-submit">Create</button>
 
-    <h3 id="feedback"></h3>
+        <h3 id="feedback"></h3>
+
+    </main>
+    
 
 
 
