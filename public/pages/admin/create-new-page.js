@@ -2,7 +2,7 @@ import { fetchData } from "../../assets/js/util.js"
 
 document.getElementById('new-page-submit').addEventListener('click', async () => {
     const pageName = document.getElementById('new-page-name').value
-    const pageContent = document.getElementById('new-page-text').innerHTML
+    const pageContent = document.getElementById('new-page-text').value
     console.log(pageName, pageContent)
     
     const settings = {
