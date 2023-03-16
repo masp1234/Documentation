@@ -2,15 +2,12 @@ import { fetchData, BASE_URL } from "./util.js"
 
 const documentationFiles = await fetchData(`${BASE_URL}/api/documentation`)
 
-const documentationDropdown = document.getElementById('documentation-select')
+const documentationDropdown = document.getElementById('documentation-dropdown')
 
 documentationFiles.data.forEach(file => {
-    const optionElement = document.createElement('option')
-    optionElement.value = `${BASE_URL}/documentation/${file.pathName}`
-    optionElement.innerText = file.displayName
-    documentationDropdown.appendChild(optionElement)
-})
-
-documentationDropdown.addEventListener('change', () => {
-    window.location.href = documentationDropdown.value
+    const anchorElement = document.createElement('a')
+    anchorElement.href = `${BASE_URL}/documentation/${file.pathName}`
+    anchorElement.innerText = file.displayName
+    anchorElement.classList.add('dropdown-item')
+    documentationDropdown.appendChild(anchorElement)
 })

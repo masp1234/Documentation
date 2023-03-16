@@ -33,6 +33,7 @@ app.get('/api/documentation', (req, res) => {
     })
 })
 
+// TODO Skal måske slet ikke bruges
 app.get('/documentation', (req, res) => {
     return res.status(200).sendFile(path.resolve('public/pages/documentation-home/documentation.html'))
 })

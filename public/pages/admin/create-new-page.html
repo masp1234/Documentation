@@ -11,8 +11,15 @@
 <body>
     <header>
         <nav>
-            <a class="text" href="/login">Log in</a>
-            <a class="text" href="/documentation">Documentation</a>
+            <a class="navbar-item" href="/login">Log in</a>
+            <div id="dropdown">
+                <div class="dropdown-button navbar-item">Documentation</div>
+                <div id="documentation-dropdown" class="dropdown-content">
+                  <a class="dropdown-item" href="#">Link 1</a>
+                  <a class="dropdown-item" href="#">Link 2</a>
+                  <a class="dropdown-item" href="#">Link 3</a>
+                </div>
+              </div>
         </nav>
     </header>
     <main id="container">
@@ -21,10 +28,12 @@
         <textarea class="text" id="new-page-text" placeholder="Type your HTML here!"></textarea>
      
 
-        <button class="submit-button" id="new-page-submit">Create</button>
+        <button class="submit-button button" id="new-page-submit">Create</button>
 
         <h3 id="feedback"></h3>
 
+
+        <script src="../../assets/js/page-select.js" type="module"></script>
     </main>
     
 

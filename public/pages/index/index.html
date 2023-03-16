@@ -10,11 +10,22 @@
 <body>
     <header>
         <nav>
-            <a href="/login">Log in</a>
-            <a href="/documentation">Documentation</a>
+            <a class="navbar-item" href="/login">Log in</a>
+            <div id="dropdown">
+                <div class="dropdown-button navbar-item">Documentation</div>
+                <div id="documentation-dropdown" class="dropdown-content">
+                  <a class="dropdown-item" href="#">Link 1</a>
+                  <a class="dropdown-item" href="#">Link 2</a>
+                  <a class="dropdown-item" href="#">Link 3</a>
+                </div>
+              </div>
         </nav>
     </header>
     <h1>Hello</h1>
-    
+
+
+
+
+    <script src="../../assets/js/page-select.js" type="module"></script>
 </body>
 </html>
