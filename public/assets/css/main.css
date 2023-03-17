@@ -6,13 +6,15 @@ nav {
     margin-right: 5vw;
     
 }
-header {
-    background-color: black;
+header, .dropdown-content {
+    background-color: rgb(58, 57, 57);
 }
 
 body {
-    background-color: #171717;
+    background-color: #e6dfdf;
     margin: 0;
+    /* for at gøre al teksten hvid midlertidigt */
+    color: ghostwhite;
 }
 
 input, textarea, ::placeholder{
@@ -63,7 +65,7 @@ input {
 }
 
 textarea, input {
-    background-color: black;
+    background-color: rgb(29, 28, 28);
     border-style: none;
     border-radius: 8px;
     padding: 2vh;
@@ -96,16 +98,13 @@ a {
     display: block;
     
   }
-.dropdown-content a:hover {
-    background-color: #DA0037;
-}
-  
+
 #dropdown:hover .dropdown-content {
     display: block;
 }
 
-#dropdown:hover .dropdown-button, .navbar-item:hover {
-    background-color: #DA0037;
+#dropdown:hover .dropdown-button, .navbar-item:hover, .dropdown-content a:hover{
+    background-color: #6019c4;
 }
 
 

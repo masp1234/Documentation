@@ -58,7 +58,7 @@ app.post('/api/login', (req, res) => {
     const { username, password } = req.body
     if (username === 'bob' && password === "123") {
         // kan ikke redirecte med res.redirect(url), da fetchData brokker sig over, at en html fil sendt med res.sendFile ikke er valid JSON. Prøv at finde ud af hvordan
-        return res.status(200).send( {message: 'Login successful', redirectURL: '/admin'} )
+        return res.status(200).send( {message: 'Login successful'} )
     }
     else {
         return res.status(401).send({ message: 'Login failed' })
@@ -66,38 +66,17 @@ app.post('/api/login', (req, res) => {
 })
 
 app.post('/api/pages', (req, res) => {
-    const { pageContent } = req.body
-    const pageName = req.body.pageName.trim().replaceAll(' ', '-')
-    const filePath = `public/pages/documentation/${pageName}.html`
-    if (fs.existsSync(filePath)) return res.status(418).send( {message: `A file with the name: ${pageName} already exists`} )
+    const fileName = req.body.pageName.trim().replaceAll(' ', '-')
+    const filePath = `public/pages/documentation/${fileName}.html`
 
-    const template = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="stylesheet" href="../../assets/css/main.css">
-                <title>Document</title>
-            </head>
-            <body>
-            <header>
-                <nav>
-                    <a href="/login">Log in</a>
-                    <a href="/documentation">Documentation</a>
-                    <select id="documentation-select">
-                        <option selected disabled hidden>Pages</option>
+    if (fs.existsSync(filePath)) {
+        return res.status(418).send({ message: `A file with the name: ${fileName} already exists` })
+    } 
 
-                    </select>
-                </nav>
-            </header>
-            ${pageContent}
-            <script src="../../assets/js/page-select.js" type="module"></script>
-            </body>
-            </html>`
-
-    fs.writeFile(path.resolve(filePath), template, error => {
+    const newPage = renderPage(req.body.pageContent, {
+        tabTitle: req.body.pageName
+    })
+    fs.writeFile(path.resolve(filePath), newPage, error => {
         if (error) {
             console.log(error)
         }
