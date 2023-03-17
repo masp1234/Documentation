@@ -1,45 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../assets/css/main.css">
 
-    <title>Document</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <a class="navbar-item" href="/login">Log in</a>
-            <div id="dropdown">
-                <div class="dropdown-button navbar-item">Documentation</div>
-                <div id="documentation-dropdown" class="dropdown-content">
-                  <a class="dropdown-item" href="#">Link 1</a>
-                  <a class="dropdown-item" href="#">Link 2</a>
-                  <a class="dropdown-item" href="#">Link 3</a>
-                </div>
-              </div>
-        </nav>
-    </header>
-    <main id="container">
-        <label class="text" for="new-page-name">Choose a name for the page</label>
-        <input id="new-page-name" type="text">
-        <textarea class="text" id="new-page-text" placeholder="Type your HTML here!"></textarea>
+<label class="text" for="new-page-name">Choose a name for the page</label>
+<input id="new-page-name" type="text">
+<textarea class="text" id="new-page-text" placeholder="Type your HTML here!"></textarea>
      
+<button class="submit-button button" id="new-page-submit">Create</button>
 
-        <button class="submit-button button" id="new-page-submit">Create</button>
+<h3 id="feedback"></h3>
 
-        <h3 id="feedback"></h3>
-
-
-        <script src="../../assets/js/page-select.js" type="module"></script>
-    </main>
-    
-
-
-
-
-    <script src="/pages/admin/create-new-page.js" type="module"></script>
-</body>
-</html>
+<script src="/pages/admin/create-new-page.js" type="module"></script>

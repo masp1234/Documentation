@@ -1,6 +1,7 @@
 import express from 'express'
 import path from 'path'
 import fs from 'fs'
+import { renderPage, readPage } from './util/template-engine.js'
 
 const app = express()
 const PORT = 8080
@@ -8,16 +9,21 @@ const PORT = 8080
 app.use(express.static('public'))
 app.use(express.json())
 
+
+const loginPage = renderPage(readPage('./public/pages/login/login.html'))
+const indexPage = renderPage(readPage('./public/pages/index/index.html'))
+const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'))
+
 app.get('/', (req, res) => {
-    res.status(200).sendFile(path.resolve('public/pages/index/index.html'))
+    res.status(200).send(indexPage)
 })
 
 app.get('/login', (req, res) => {
-    res.status(200).sendFile(path.resolve('public/pages/login/login.html'))
+    res.status(200).send(loginPage)
 })
 
 app.get('/admin', (req, res) => {
-    res.status(200).sendFile(path.resolve('public/pages/admin/create-new-page.html'))
+    res.status(200).send(adminPage)
 })
 
 app.get('/api/documentation', (req, res) => {
