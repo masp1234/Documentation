@@ -4,9 +4,14 @@ document.getElementById('new-page-submit').addEventListener('click', async () =>
     const feedbackElement = document.getElementById('feedback')
     const pageName = document.getElementById('new-page-name').value
     
+    // lav en metode der gør dette, men både ved success og fejl
     if (pageName.length <= 0) {
         feedbackElement.innerText = 'The file needs a name'
+        setTimeout(() => {
+            feedbackElement.innerText = ""
+        }, 3500)
         return
+        
     }
     const pageContent = document.getElementById('new-page-text').value
     console.log(pageName, pageContent)

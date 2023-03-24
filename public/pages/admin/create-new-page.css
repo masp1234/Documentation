@@ -1,0 +1,16 @@
+#create-new-page-container {
+    display: flex;
+    flex-direction: column;
+}
+#page-name-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+#create-page-button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+

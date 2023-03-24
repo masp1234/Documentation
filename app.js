@@ -12,7 +12,9 @@ app.use(express.json())
 
 const loginPage = renderPage(readPage('./public/pages/login/login.html'))
 const indexPage = renderPage(readPage('./public/pages/index/index.html'))
-const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'))
+const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'), {
+    cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">']
+})
 
 app.get('/', (req, res) => {
     res.status(200).send(indexPage)
