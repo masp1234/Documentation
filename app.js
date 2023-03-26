@@ -46,11 +46,6 @@ app.get('/api/documentation', (req, res) => {
     })
 })
 
-// TODO Skal måske slet ikke bruges
-app.get('/documentation', (req, res) => {
-    return res.status(200).sendFile(path.resolve('public/pages/documentation-home/documentation.html'))
-})
-
 app.get('/documentation/:pageName', (req, res) => {
     const pageName = req.params.pageName
     const filePath = `public/pages/documentation/${pageName}.html`
@@ -74,17 +69,15 @@ app.post('/api/login', (req, res) => {
     }
 })
 
-app.post('/api/pages', (req, res) => {
+app.post('/api/documentation', (req, res) => {
     const fileName = req.body.pageName.trim().replaceAll(' ', '-')
     const filePath = `public/pages/documentation/${fileName}.html`
 
     if (fs.existsSync(filePath)) {
         return res.status(418).send({ message: `A file with the name: ${fileName} already exists` })
     }
-    const newPage = `<h1>${req.body.pageName}</h1>
-                    ${req.body.pageContent}`
 
-    fs.writeFile(path.resolve(filePath), newPage, error => {
+    fs.writeFile(path.resolve(filePath), req.body.pageContent, error => {
         if (error) {
             console.log(error)
         }

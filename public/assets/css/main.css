@@ -41,7 +41,7 @@ input, textarea, ::placeholder{
 
 #container {
     display:flex;
-    margin: 3% 3%;
+    margin: 3em 5em;
     flex-direction: column;
 }
 input {
@@ -111,7 +111,7 @@ textarea {
 
 
 pre {
-    background-color: rgb(54, 54, 54)
+    background-color: rgb(54, 54, 54);
 }
 
 p {

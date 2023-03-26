@@ -22,6 +22,5 @@
   "homepage": "https://github.com/masp1234/documentation#readme",
   "dependencies": {
     "express": "^4.18.2"
-    
   }
 }

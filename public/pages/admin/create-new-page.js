@@ -27,7 +27,7 @@ document.getElementById('new-page-submit').addEventListener('click', async () =>
         })
     }
 
-    const response = await fetch(`${BASE_URL}/api/pages`, settings)
+    const response = await fetch(`${BASE_URL}/api/documentation`, settings)
     const data = await response.json();
     // TODO Reloader hele siden, men måske man kunne nøjes med Documentation dropdown?
     if (response.ok) await renderDropdown()
