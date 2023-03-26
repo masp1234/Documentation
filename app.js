@@ -10,10 +10,15 @@ app.use(express.static('public'))
 app.use(express.json())
 
 
-const loginPage = renderPage(readPage('./public/pages/login/login.html'))
-const indexPage = renderPage(readPage('./public/pages/index/index.html'))
+const loginPage = renderPage(readPage('./public/pages/login/login.html'), {
+    tabTitle: 'Login'
+})
+const indexPage = renderPage(readPage('./public/pages/index/index.html'), {
+    tabTitle: 'Home'
+})
 const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'), {
-    cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">']
+    cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">'],
+    tabTitle: 'Admin'
 })
 
 app.get('/', (req, res) => {
@@ -53,7 +58,9 @@ app.get('/documentation/:pageName', (req, res) => {
         return res.status(404).send({ message: `The page with name: ${pageName} does not exist` })
     }
 
-    return res.sendFile(path.resolve(filePath))   
+    return res.send(renderPage(readPage(filePath), {
+        tabTitle: pageName
+    }))  
 })
 
 app.post('/api/login', (req, res) => {
@@ -73,11 +80,10 @@ app.post('/api/pages', (req, res) => {
 
     if (fs.existsSync(filePath)) {
         return res.status(418).send({ message: `A file with the name: ${fileName} already exists` })
-    } 
+    }
+    const newPage = `<h1>${req.body.pageName}</h1>
+                    ${req.body.pageContent}`
 
-    const newPage = renderPage(req.body.pageContent, {
-        tabTitle: req.body.pageName
-    })
     fs.writeFile(path.resolve(filePath), newPage, error => {
         if (error) {
             console.log(error)
