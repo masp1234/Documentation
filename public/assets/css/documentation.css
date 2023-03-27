@@ -1,0 +1,11 @@
+pre {
+    background-color: rgb(54, 54, 54);
+}
+
+p {
+    font-size: medium
+}
+
+#documentation-container {
+    margin: 3em 15em;
+}

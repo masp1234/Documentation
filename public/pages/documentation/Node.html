@@ -1,81 +1,83 @@
-<h2>NodeJS</h2>
+<div id="documentation-container">
+    <h2>NodeJS</h2>
 
-<p>Nodejs is a server-side JavaScript runtime environment that makes it possible to run javascript without needing a browser. This makes it possible to create backend services and console applications etc.</p>
+    <p>Nodejs is a server-side JavaScript runtime environment that makes it possible to run javascript without needing a browser. This makes it possible to create backend services and console applications etc.</p>
 
-<h2>Node Package Manager</h2>
+    <h2>Node Package Manager</h2>
 
-<p>
-    When you install the NodeJS runtime environtment, you also get a tool called Node Package Manager, shortened to npm.
-    Npm makes it easy to handle dependencies. To install a package (dependency), you just write something like "npm install express". You can shorten the "install" to "i" if you want. 
-<p>
-    Here is an example where the module "express" is installed with a specific version. If you omit the version, you will get the latest version by default
-</p>
+    <p>
+        When you install the NodeJS runtime environtment, you also get a tool called Node Package Manager, shortened to npm.
+        Npm makes it easy to handle dependencies. To install a package (dependency), you just write something like "npm install express". You can shorten the "install" to "i" if you want. 
+    <p>
+        Here is an example where the module "express" is installed with a specific version. If you omit the version, you will get the latest version by default
+    </p>
 
-    <pre>
-        <code>
-            npm i express@4.17.2
-        </code>
-      </pre>
+        <pre>
+            <code>
+                npm i express@4.17.2
+            </code>
+        </pre>
 
-</p>
+    </p>
 
-<h2>Package.json, package-lock.json and node_modules</h2>
+    <h2>Package.json, package-lock.json and node_modules</h2>
 
-<p>
-    Installing a module will create two json files for you and one folder. The 2 files are called "package.json" and "package-lock.json", and the folder is called "node_modules". 
-</p>
-<p>
-    The "package.json" file contains metadata about your NodeJS project and also all the dependencies that are used in the project. If you for example clone a project, you should not get a node_modules folder, since this folder is usually included in the .gitignore file.
-    To get all the dependencies in the package.json file you just type "npm i".
-      <p>
-        To uninstall dependencies, you can remove the dependencies and write "npm i" as well or use the command below
-      </p>
+    <p>
+        Installing a module will create two json files for you and one folder. The 2 files are called "package.json" and "package-lock.json", and the folder is called "node_modules". 
+    </p>
+    <p>
+        The "package.json" file contains metadata about your NodeJS project and also all the dependencies that are used in the project. If you for example clone a project, you should not get a node_modules folder, since this folder is usually included in the .gitignore file.
+        To get all the dependencies in the package.json file you just type "npm i".
+        <p>
+            To uninstall dependencies, you can remove the dependencies and write "npm i" as well or use the command below
+        </p>
 
-      <pre>
-        <code>
-            npm uninstall express
-        </code>
-      </pre>
-      <p>You can also use the "npm init" command to create the package.json file. If you do it this way, you will be asked to provide some metadata about your project. If you don't provide any information, the stuff will default to what is shown in each prompt. When done, the file will look similar to the example below</p>
+        <pre>
+            <code>
+                npm uninstall express
+            </code>
+        </pre>
+        <p>You can also use the "npm init" command to create the package.json file. If you do it this way, you will be asked to provide some metadata about your project. If you don't provide any information, the stuff will default to what is shown in each prompt. When done, the file will look similar to the example below</p>
 
-      <pre>
-        <code>
-            {
-                "name": "mandatory-documentation",
-                "version": "1.0.0",
-                "description": "",
-                "type": "module",
-                "main": "app.js",
-                "scripts": {
-                  "test": "echo \"Error: no test specified\" && exit 1"
-                },
-                "repository": {
-                  "type": "git",
-                  "url": "git+https://github.com/masp1234/documentation.git"
-                },
-                "keywords": [
-                  "documentation"
-                ],
-                "author": "masp1234",
-                "license": "MIT",
-                "bugs": {
-                  "url": "https://github.com/masp1234/documentation/issues"
-                },
-                "homepage": "https://github.com/masp1234/documentation#readme",
-                "dependencies": {
-                  "express": "^4.18.2"
+        <pre>
+            <code>
+                {
+                    "name": "mandatory-documentation",
+                    "version": "1.0.0",
+                    "description": "",
+                    "type": "module",
+                    "main": "app.js",
+                    "scripts": {
+                    "test": "echo \"Error: no test specified\" && exit 1"
+                    },
+                    "repository": {
+                    "type": "git",
+                    "url": "git+https://github.com/masp1234/documentation.git"
+                    },
+                    "keywords": [
+                    "documentation"
+                    ],
+                    "author": "masp1234",
+                    "license": "MIT",
+                    "bugs": {
+                    "url": "https://github.com/masp1234/documentation/issues"
+                    },
+                    "homepage": "https://github.com/masp1234/documentation#readme",
+                    "dependencies": {
+                    "express": "^4.18.2"
+                    }
                 }
-            }
-        </code>
-      </pre>
-      
-      
-      
+            </code>
+        </pre>
+        
+        
+        
 
-</p>
-<p>
-    The file "package-lock.json" contains the exact versions of all the dependencies in the project, as well as the dependencies of your dependencies.
-</p>
-<p>
-    The "node_modules" folder is where all the installed dependencies are located.
-</p>
+    </p>
+    <p>
+        The file "package-lock.json" contains the exact versions of all the dependencies in the project, as well as the dependencies of your dependencies.
+    </p>
+    <p>
+        The "node_modules" folder is where all the installed dependencies are located.
+    </p>
+</div>

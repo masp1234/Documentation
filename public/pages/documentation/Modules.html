@@ -1,7 +1,81 @@
-<h2>Nodemon</h2>
-<p>Nodemon is a nice tool for developing. It wraps your application and listens for changes in your code. If you dont specify which files Nodemon should listen for changes in, the default will be js, mjs and json file extensions. You can create a nodemon.json file in the root folder, where you can configure what nodemon should listen for, like in the example below. </p>
+<div id="documentation-container">
+    <h2>CommonJS</h2>
+    <p>In NodeJS, before ES modules was introduced, CommonJS was the way to modularize code. To make code inside a module usable in other modules, you would have to "expose" the code by using the module.exports object and the "export" syntax. After you have exported something, you can then import it in another module using the "require" syntax</p>
 
-<p>nodemon.json</p>
+    <pre>
+        <code>
+            import fs from 'fs'
 
-<h2>Dev dependencies</h2>
-<p>global and local</p>
+            const renderPage = (page, config={}) => {
+                let cssLinksString = ""
+                if (config.cssLinks) {
+                    config.cssLinks.forEach(cssLink => cssLinksString += cssLink + '\n')
+                }
+                const navbar = readPage('./public/components/navbar/navbar.html')
+                    .replace("$CSS_LINK", cssLinksString)
+                    .replace("$TAB_TITLE", config.tabTitle.replaceAll('-', ' '))
+                const footer = readPage('./public/components/footer/footer.html')
+                
+                return navbar + page + footer
+            }
+
+            const readPage = pagePath =>  fs.readFileSync(pagePath).toString()
+
+            export {
+                renderPage,
+                readPage
+            }
+
+        </code>
+    </pre>
+
+    <pre>
+        <code>
+            import express from 'express'
+            import path from 'path'
+            import fs from 'fs'
+            import { renderPage, readPage } from './util/template-engine.js'
+
+
+            const app = express()
+            const PORT = 8080
+
+            app.use(express.static('public'))
+            app.use(express.json())
+
+
+            const loginPage = renderPage(readPage('./public/pages/login/login.html'), {
+                tabTitle: 'Login'
+            })
+            const indexPage = renderPage(readPage('./public/pages/index/index.html'), {
+                tabTitle: 'Home'
+            })
+            const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'), {
+                cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">'],
+                tabTitle: 'Admin'
+            })
+        </code>
+    </pre>
+
+
+    <h2>ES Modules</h2>
+
+
+    <h2>Nodemon</h2>
+    <p>Nodemon is a nice tool for developing. It wraps your application and listens for changes in your code. If you dont specify which files Nodemon should listen for changes in, the default will be js, mjs and json file extensions. You can create a nodemon.json file in the root folder, where you can configure what nodemon should listen for, like in the example below. </p>
+
+    <p>nodemon.json</p>
+
+    <pre>
+        <code>
+            {
+                "ext": "js, html, json"
+            }
+        </code>
+    </pre>
+
+
+
+    <h2>Dev dependencies</h2>
+    <p>global and local</p>
+</div>

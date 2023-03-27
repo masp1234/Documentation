@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import { renderPage, readPage } from './util/template-engine.js'
 
+
 const app = express()
 const PORT = 8080
 
@@ -54,7 +55,8 @@ app.get('/documentation/:pageName', (req, res) => {
     }
 
     return res.send(renderPage(readPage(filePath), {
-        tabTitle: pageName
+        tabTitle: pageName,
+        cssLinks: ['<link rel="stylesheet" href="/assets/css/documentation.css">']
     }))  
 })
 
@@ -74,10 +76,13 @@ app.post('/api/documentation', (req, res) => {
     const filePath = `public/pages/documentation/${fileName}.html`
 
     if (fs.existsSync(filePath)) {
-        return res.status(418).send({ message: `A file with the name: ${fileName} already exists` })
+        return res.status(409).send({ message: `A file with the name: ${fileName} already exists` })
     }
+    const newPage = `<div id="documentation-container">
+                        ${req.body.pageContent}
+                     </div>`
 
-    fs.writeFile(path.resolve(filePath), req.body.pageContent, error => {
+    fs.writeFile(path.resolve(filePath), newPage, error => {
         if (error) {
             console.log(error)
         }

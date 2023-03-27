@@ -6,9 +6,9 @@ const renderPage = (page, config={}) => {
         config.cssLinks.forEach(cssLink => cssLinksString += cssLink + '\n')
     }
     const navbar = readPage('./public/components/navbar/navbar.html')
-        .replace("$CSS_LINK", cssLinksString)
-        .replace("$TAB_TITLE", config.tabTitle.replaceAll('-', ' '))
-    const footer = readPage('./public/components/footer/footer.html')
+        .replace('$CSS_LINK', cssLinksString)
+        .replace('$TAB_TITLE', config.tabTitle.replaceAll('-', ' '))
+    const footer = readPage('./public/components/footer/footer.html').replace('$FOOTER_YEAR', `${new Date().getFullYear()} ©️`)
     
     return navbar + page + footer
 }
