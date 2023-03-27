@@ -90,7 +90,7 @@ textarea {
     height: 100%;
   } 
 .dropdown-content {
-    /*display: none; */
+    /*display: none; for at vise dropdown, indtil den er fixed */
     z-index: 1;
   }
   

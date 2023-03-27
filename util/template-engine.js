@@ -3,7 +3,6 @@ import fs from 'fs'
 const renderPage = (page, config={}) => {
     let cssLinksString = ""
     if (config.cssLinks) {
-        console.log(cssLinksString)
         config.cssLinks.forEach(cssLink => cssLinksString += cssLink + '\n')
     }
     const navbar = readPage('./public/components/navbar/navbar.html')

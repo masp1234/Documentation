@@ -1,0 +1,87 @@
+<h2>Functions as First Class Citizens</h2>
+<p>
+    Functions being First Class Citizens means that they can be passed around as arguments, can return other functions, and be stored in variables. You could for example have an array of functions if you wanted to. This feature also makes callback functions possible.
+    Some examples of functions being FCC below
+</p>
+
+<pre>
+    <code>
+        const functionArray = [
+            (a, b) => a + b,
+            message => `Here is your message: ${message}`,
+            (a, b, c) => {
+                console.log(a, b, c);
+                return a + b * c;
+            }
+        ];
+
+        const functionReturningAnotherFunction = () => {
+            return (name) => `Hello, ${name}`
+        }
+
+    </code>
+</pre>
+
+<h2>3 different ways to create a function</h2>
+<p
+    >Besides the syntax, there are some differences between an arrow (also called anonymous) function and a regular function. Because of the differences, an arrow function should not be used as a method. Here is 2 of the differences:
+</p>
+<ul>
+    <li>An arrow function can't be used as a constructor and will throw a TypeError exception.</li>
+    <li>An arrow function using the "this keyword" will not refer to the same "this" as a regular function.</li>
+</ul>
+<p>The first example is a function declaration</p>
+
+<pre>
+    <code>
+        function regularFunction(message) {
+            console.log(message);
+        };
+    </code>
+</pre>
+
+<p>
+    The second example is a function expression
+</p>
+
+<pre>
+    <code>
+        const functionExpression = function(message) {
+            console.log(message)
+        };
+    </code>
+</pre>
+
+<p>
+    The third and last example is an arrow function expression
+</p>
+
+<pre>
+    <code>
+        const arrowFunctionExpression = message => {
+            console.log(message);
+        };
+    </code>
+</pre>
+<p>
+    Note that you don't have to have parentheses around the parameter if there is only a single parameter. If you have 0 or more than 1 parameter, you will have to include the parentheses
+</p>
+<p>
+    if your arrow function's body only contains a single expression, you can omit the curly braces and the return keyword, since the return is implicit. If you want to return an object this way, you will have to wrap the expression in parentheses, like in the example below
+</p>
+
+<pre>
+    <code>
+        const implicitlyReturningAnObject = () => ({ message: 'hello' })
+    </code>
+</pre>
+
+<h2>Async functions</h2>
+<p>
+    Using the "async" keyword will make the function return a promise. 
+</p>
+
+<h2>Callback functions</h2>
+<p>A callback function is a function that is given as a parameter to another function. </p>
+
+<h2>Loop methods</h2>
