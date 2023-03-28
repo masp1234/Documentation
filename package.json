@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/masp1234/documentation#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2"
   }
 }

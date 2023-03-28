@@ -2,35 +2,42 @@ import express from 'express'
 import path from 'path'
 import fs from 'fs'
 import { renderPage, readPage } from './util/template-engine.js'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 const PORT = 8080
 
 app.use(express.static('public'))
 app.use(express.json())
+app.use(cookieParser())
 
 
 const loginPage = renderPage(readPage('./public/pages/login/login.html'), {
     tabTitle: 'Login'
 })
-const indexPage = renderPage(readPage('./public/pages/index/index.html'), {
-    tabTitle: 'Home'
-})
-const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'), {
-    cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">'],
-    tabTitle: 'Admin'
-})
 
 app.get('/', (req, res) => {
-    res.status(200).send(indexPage)
+    res.status(200).send(renderPage(readPage('./public/pages/index/index.html'), {
+        tabTitle: 'Home',
+        cookie: req.cookies['logged-in cookie']
+    }))
 })
 
 app.get('/login', (req, res) => {
     res.status(200).send(loginPage)
 })
 
+app.get('/logout', (req, res) => {
+    res.clearCookie('logged-in cookie')
+    res.redirect('/')
+})
+
 app.get('/admin', (req, res) => {
-    res.status(200).send(adminPage)
+    res.status(200).send(renderPage(readPage('./public/pages/admin/create-new-page.html'), {
+        cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">'],
+        tabTitle: 'Admin',
+        cookie: req.cookies['logged-in cookie']
+    }))
 })
 
 app.get('/api/documentation', (req, res) => {
@@ -55,7 +62,8 @@ app.get('/documentation/:pageName', (req, res) => {
 
     return res.send(renderPage(readPage(filePath), {
         tabTitle: pageName,
-        cssLinks: ['<link rel="stylesheet" href="/assets/css/documentation.css">']
+        cssLinks: ['<link rel="stylesheet" href="/assets/css/documentation.css">'],
+        cookie: req.cookies['logged-in cookie']
     }))  
 })
 
@@ -63,6 +71,9 @@ app.post('/api/login', (req, res) => {
     const { username, password } = req.body
     if (username === 'bob' && password === "123") {
         // kan ikke redirecte med res.redirect(url), da fetchData brokker sig over, at en html fil sendt med res.sendFile ikke er valid JSON. Prøv at finde ud af hvordan
+        res.cookie('logged-in cookie', 'random-value', {
+            maxAge: 1000 * 60 * 120
+        })
         return res.status(200).send( {message: 'Login successful'} )
     }
     else {

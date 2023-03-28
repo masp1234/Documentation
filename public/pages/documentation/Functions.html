@@ -83,8 +83,45 @@
     </p>
 
     <h1>Callback functions</h1>
-    <p>A callback function is a function that is given as a parameter to another function. </p>
+    <p>A callback function is a function that is given as a parameter to another function. An example showing how to use callback functions will be given in the loop methods section below</p>
 
-    <h1>Loop methods</h1>
+    <h1>Array's iterative methods</h1>
+    <p>The Array data type has a bunch of iterative methods. All of these methods take a callback function and then loops through the array, calling the callback function with the current element as a parameter. A couple of examples are shown below</p>
+
+    <pre>
+        <code>
+            const bird = birds.find(bird => bird.id === Number(req.params.id))
+        </code>
+    </pre>
+    <p>
+        The array.find() method will loop through the array, calling the callback function with each bird element until the expression in the method body returns true. When true is returned, the find() functions returns the current bird element.
+    </p>
+    <pre>
+        <code>
+            const bird = birds.filter(bird => bird.age === Number(req.params.age))
+        </code>
+    </pre>
+    <p>
+        This array.filter() method is similar to the find method, but instead of stopping the first time true is returned, it loops through the entire array, storing each element that returns true in another array. When there are no more elements to loop through, the filter() method returns the array containing all the elements that returned true.
+    </p>
+
+    <pre>
+        <code>
+            const users = [
+                { name: 'user1', age: 30 },
+                { name: 'user2', age: 49 }, 
+                { name: 'user3', age: 18 },
+                { name: 'user4', age: 55 },
+                { name: 'user5', age: 32 }
+                ]
+
+                const ages = users.map(user => user.age)
+        </code>
+    </pre>
+    <p>
+        the array.map() method iterates through the array and returns a new array with the values returned   from each call of the callback function. The ages variable in the above example contains an array with all the users' ages.
+    </p>
+
+
 
 </div>

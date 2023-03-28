@@ -1,68 +1,70 @@
 <div id="documentation-container">
-    <h1>CommonJS</h1>
+    <h1>CommonJS - importing and exporting</h1>
     <p>In NodeJS, before ES modules was introduced, CommonJS was the way to modularize code. To make code inside a module usable in other modules, you would have to "expose" the code by using the module.exports object and the "export" syntax. After you have exported something, you can then import it in another module using the "require" syntax</p>
 
     <pre>
         <code>
-            import fs from 'fs'
-
-            const renderPage = (page, config={}) => {
-                let cssLinksString = ""
-                if (config.cssLinks) {
-                    config.cssLinks.forEach(cssLink => cssLinksString += cssLink + '\n')
-                }
-                const navbar = readPage('./public/components/navbar/navbar.html')
-                    .replace("$CSS_LINK", cssLinksString)
-                    .replace("$TAB_TITLE", config.tabTitle.replaceAll('-', ' '))
-                const footer = readPage('./public/components/footer/footer.html')
+            const renderDropdown = async () => {
+                const response = await fetch(`${BASE_URL}/api/documentation`)
+                const documentationFiles = await response.json()
                 
-                return navbar + page + footer
+                const documentationDropdown = document.getElementById('documentation-dropdown')
+                documentationDropdown.innerHTML = "";
+            
+                documentationFiles.data.forEach(file => {
+                    const anchorElement = document.createElement('a')
+                    anchorElement.href = `${BASE_URL}/documentation/${file.pathName}`
+                    anchorElement.innerText = file.displayName
+                    anchorElement.classList.add('dropdown-item')
+                    documentationDropdown.appendChild(anchorElement)
+            })
             }
-
-            const readPage = pagePath => fs.readFileSync(pagePath).toString()
-
-            export {
-                renderPage,
-                readPage
-            }
-
+            
+            module.exports = { renderDropdown }
         </code>
     </pre>
 
     <pre>
         <code>
-            import express from 'express'
-            import path from 'path'
-            import fs from 'fs'
-            import { renderPage, readPage } from './util/template-engine.js'
-
-
-            const app = express()
-            const PORT = 8080
-
-            app.use(express.static('public'))
-            app.use(express.json())
-
-
-            const loginPage = renderPage(readPage('./public/pages/login/login.html'), {
-                tabTitle: 'Login'
-            })
-            const indexPage = renderPage(readPage('./public/pages/index/index.html'), {
-                tabTitle: 'Home'
-            })
-            const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'), {
-                cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">'],
-                tabTitle: 'Admin'
-            })
+            const { renderDropdown } = require('../../assets/js/page-select.js') 
         </code>
     </pre>
 
 
-    <h1>ES Modules</h1>
-
+    <h1>ES Modules - importing and exporting</h1>
+    <pre>
+        <code>
+            const renderDropdown = async () => {
+                const response = await fetch(`${BASE_URL}/api/documentation`)
+                const documentationFiles = await response.json()
+                
+                const documentationDropdown = document.getElementById('documentation-dropdown')
+                documentationDropdown.innerHTML = "";
+            
+                documentationFiles.data.forEach(file => {
+                    const anchorElement = document.createElement('a')
+                    anchorElement.href = `${BASE_URL}/documentation/${file.pathName}`
+                    anchorElement.innerText = file.displayName
+                    anchorElement.classList.add('dropdown-item')
+                    documentationDropdown.appendChild(anchorElement)
+            })
+            }
+            
+            renderDropdown()
+            
+            export {
+                renderDropdown
+            }
+        </code>
+    </pre>
+    <pre>
+        <code>
+            import { renderDropdown } from '../../assets/js/page-select.js'
+        </code>
+    </pre>
 
     <h1>Nodemon</h1>
-    <p>Nodemon is a nice tool for developing. It wraps your application and listens for changes in your code. If you dont specify which files Nodemon should listen for changes in, the default will be js, mjs and json file extensions. You can create a nodemon.json file in the root folder, where you can configure what nodemon should listen for, like in the example below. </p>
+    <p>Nodemon is a node module and a very handy tool for developers. It wraps your application and listens for changes in your code. If you dont specify which files Nodemon should listen for changes in, the default will be js, mjs and json file extensions. You can create a nodemon.json file in the root folder, where you can configure what nodemon should listen for, like in the example below. </p>
 
     <p>nodemon.json</p>
 
@@ -76,6 +78,24 @@
 
 
 
-    <h1>Dev dependencies</h1>
-    <p>global and local</p>
+    <h1>Global, local and dev dependencies</h1>
+    <p>
+        When you install a module with npm, you can choose to install it globally, locally or as a dev dependency.
+    </p>
+    <p>
+        Installing a module locally, will place it in the node_modules folder in your current directory. If you are installing it globally, it will be placed in a global node_modules folder on your system. Installing as a dev dependency is also local, but is placed in a seperate object in the package.json file with the key "devDependency". the devDependency object indicates that these dependencies are only for development purposes. There is an example below, showing all 3 ways to install a module.
+    </p>
+
+    <pre>
+        <code>
+            // locally
+            npm i package-name
+
+            // globally
+            npm i package-name -g
+
+            // as a dev dependency
+            npm i package-name --save-dev
+        </code>
+    </pre>
 </div>
