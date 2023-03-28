@@ -1,30 +1,79 @@
 <div id="documentation-container">
 
-<h2>Server-side rendering</h2>
-<p>Server-side rendering is where you construct the page on the server before you send it to the client.</p>
+<h1>Server-side rendering</h1>
+<p>Server-side rendering is where you construct the page on the server before you send it to the client. An example of server-side rendering is given below.</p>
 
-<h3>Pros and cons</h3>
-<h4>Pros</h4>
+
+<pre>
+    <code>
+        import fs from 'fs'
+
+        const renderPage = (page, config={}) => {
+            let cssLinksString = ""
+            if (config.cssLinks) {
+                config.cssLinks.forEach(cssLink => cssLinksString += cssLink + '\n')
+            }
+            const navbar = readPage('./public/components/navbar/navbar.html')
+                .replace('$CSS_LINK', cssLinksString)
+                .replace('$TAB_TITLE', config.tabTitle.replaceAll('-', ' '))
+            const footer = readPage('./public/components/footer/footer.html')
+                .replace('$FOOTER_YEAR', `${new Date().getFullYear()} ©️`)
+            
+            return navbar + page + footer
+        }
+
+        const readPage = pagePath =>  fs.readFileSync(pagePath).toString()
+
+        export {
+            renderPage,
+            readPage
+        }
+
+    </code>
+</pre>
+<p>Reads the page as well as the navbar and footer components, using the 'fs' module. Then it replaces all $ with either a given configuration option or blank if there is no configuration option.</p>
+
+<pre>
+    <code>
+        import { renderPage, readPage } from './util/template-engine.js'
+
+        const adminPage = renderPage(readPage('./public/pages/admin/create-new-page.html'), {
+            cssLinks: ['<link rel="stylesheet" href="/pages/admin/create-new-page.css">'],
+            tabTitle: 'Admin'
+        })
+
+        app.get('/admin', (req, res) => {
+            res.status(200).send(adminPage)
+        })
+    </code>
+</pre>
+<p>The functions from the above example are imported, the page read, and some configuration options are set in the config object. Finally, the fully rendered page is returned in the response.</p>
+
+<h2>Pros and cons</h2>
+<h3>Pros</h3>
 <ul>
-    <li>Good for SEO, since it makes it easier for search engines to index your site's pages.</li>
-    <li>Better for people with slow connections, since the server constructs the page, instead of delegating the job to the browser.</li>
+    <li>Good for SEO, since it makes it easier for search engines to index your page(s).</li>
+    <li>Better for people with slow connections, since the server constructs the page, instead of delegating the job to the user's browser.</li>
     <li>Faster initial load.</li>
 </ul>
-<h4>Cons</h4>
+<h3>Cons</h3>
 <ul>
     <li>Slower page loading after the first page compared to client-side rendering.</li>
     <li>A lot of stress on the server, since you are handling all the rendering server-side.</li>
 </ul>
 
-<h2>Client-side rendering</h2>
-<p>Client-side rendering is where you send a barebones html page and some JavaScript that will render the rest of the content.</p>
-<h3>Pros and cons</h3>
-<h4>Pros</h4>
+<h1>Client-side rendering</h1>
+<p>Client-side rendering is where you send a barebones html page and some JavaScript that will fetch the needed data, and then construct some HTML using the fetched data.</p>
+<h2>Pros and cons</h2>
+<h3>Pros</h3>
 <ul>
     <li>Less strain on the server, since the client handles the rendering.</li>
+    <li>Faster after the first page is loaded, since you are not requesting entirely new pages. Instead, you the JavaScript will request some data, construct the needed HTML, and populate that HTML with the data.</li>
 </ul>
-<h4>Cons</h4>
+<h3>Cons</h3>
 <ul>
+    <li>Makes it harder for the search engines to index your page(s).</li>
+    <li>Not good for users with slow connections, since the job of rendering the page is assigned to their browsers.</li>
     
 </ul>
 
