@@ -90,7 +90,7 @@ textarea {
     height: 100%;
   } 
 .dropdown-content {
-    /*display: none; for at vise dropdown, indtil den er fixed */
+    display: none;
     z-index: 1;
   }
   
@@ -107,8 +107,16 @@ textarea {
     background-color: #6019c4;
 }
 
+/* Documentation pages */
 
 
+pre {
+    background-color: rgb(54, 54, 54);
+}
+
+p {
+    font-size: large
+}
 
 
 
