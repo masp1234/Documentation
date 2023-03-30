@@ -1,0 +1,117 @@
+<div id="documentation-container">
+    <h1>Express</h1>
+    
+    <p>Express is a node module, which provides a lightweight and easy server to get started with. It can get much more complex of course, but setting a couple of routes quickly is very intuitive.</p>
+
+    <p>
+        First you install express using npm by writing: npm i express, then you "import" or "require" depending on if you are using CommonJS modules og ES modules. After importing express into your module, you will have to call the express function to create your application, assigning the Express instance to a variable. After that, you can start the server by listening to a port, and optionally, pass in a callback function that gets called when it starts. 
+       <p>
+        Another option is to declare a constant with the port number, so you don't have to change the port number in multiple places. I chose port 8080, because it's the port reserved for developing with HTTP. An example, using ES module syntax is shown below.
+       </p>
+    </p>
+    <pre>
+        <code>
+            import express from 'express'
+
+            const app = express()
+            const PORT = 8080
+
+            app.listen(PORT, error => {
+                if (error) {
+                    return console.log('there was an error')
+                }
+                console.log(`Server is listening on port: ${PORT}`)
+            })
+        </code>
+    </pre>
+
+    <p>You are now ready to create some endpoints/routes, using the Express instance's (the app variable) methods. Before going any further, i want to mention two REST conventions that should be followed.</p>
+
+    <h1>Two REST conventions</h1>
+    <h2>Ordering</h2>
+    <p>The first one is ordering of the HTTP methods. To make it easier to find your way around your own or other people's code, it's smart to order them like in the example below. I chose users as an example, but it could be anything.
+    </p>
+    <ul>
+        <li>GET - example.com/users - to get all users</li>
+        <li>GET - example.com/users/id - to get a specific user by an id</li>
+        <li>POST - example.com/users - to create a new user</li>
+        <li>PUT - example.com/users/id - to replace or fully update a user </li>
+        <li>PATCH - example.com/users/id - to partially update a user</li>
+        <li>DELETE - example.com/users/id - to delete a user</li>
+    </ul>
+
+    <h2>Naming endpoints</h2>
+    <p>The second convention is the naming of the endpoints. It's important to name endpoints in such a way, that they make sense and are intuitive to use. In the above example, it's pretty clear what would happen if you make any of the HTTP requests, since there is essentially only 2 different endpoints, if you ignore the HTTP methods. One without id, getting all the users or creating a user, and one with an id, doing something to a specific user.</p>
+
+    <h1>Creating routes using Express</h1>
+    <p>Creating a route is very simple with Express. You call the method on the Express instance, provide an endpoint/path and a callback method to execute, when that path is accessed. In the callback method you can do whatever you like but the method should end with response. Otherwise, the client that made the request will just "hang" and never get a response./<p>
+    <p>There are some GET request examples below. One showing how to respond with a file, another showing how to respond with JSON, and a third, showing how to get a specific page.</p>
+
+    <pre>
+        <code>
+            app.get('/login', (req, res) => {
+                res.status(200).sendFile(path.resolve('public/pages/login/login.html'))
+            })
+
+            app.get('/api/documentation', (req, res) => {
+                fs.readdir('public/pages/documentation/', (error, files) => {
+                    if (error) return res.status(500).send({ msg: error.message })
+                    
+                    const fileNames = files.map(fileName => {
+                        const slicedFileName = fileName.slice(0, -5)
+                        return {
+                            pathName: slicedFileName,
+                            displayName: slicedFileName.replaceAll('-', ' ')
+                        }
+                    })
+                    res.status(200).send({ data: fileNames })
+                })
+            })
+
+            app.get('/documentation/:pageName', (req, res) => {
+                const pageName = req.params.pageName
+                const filePath = `public/pages/documentation/${pageName}.html`
+                if (!fs.existsSync(filePath)) {
+                    return res.status(404).send({ message: `The page with name: ${pageName} does not exist` })
+                }
+            
+                return res.status(200).send(renderPage(readPage(filePath), {
+                    tabTitle: pageName,
+                    cssLinks: ['<link rel="stylesheet" href="/assets/css/documentation.css">'],
+                    cookie: req.cookies['logged-in cookie']
+                }))  
+            })
+        </code>
+    </pre>
+    <h2>Serving the static/public folder</h2>
+    <p>When you send files, either with the res.sendFile() method or as a HTML string, you can "expose" the static files on your server, by using the express.static middleware function, as shown below. This is a security measure to prevent the clients of the application to access files on our server, that they should not be allowed to access. In addition, it also means that the client themselves can request the additional resources, that are linked to an HTML page.</p>
+    <pre>
+        <code>
+            app.use(express.static('public'))
+        </code>
+    </pre>
+    <h2>POST method and the express.json() middleware</h2>
+    <p>
+        When your endpoint recieves a HTTP request that is using either POST, PUT, or PATCH, you will almost certainly have to access the request body. To access the request body, you will need a bodyparser. If you don't use one, the body will be undefined, even though the client put something in it. For that, you can use a function that is included in Express. Below are an example of using the express.json() middleware function and a POST endpoint
+    </p>
+
+    <pre>
+        <code>
+            app.use(express.json())
+
+            app.post('/api/login', (req, res) => {
+                const { username, password } = req.body
+                if (username === 'secret' && password === "secret") {
+                    res.cookie('logged-in cookie', 'random-value', {
+                        maxAge: 1000 * 60 * 120
+                    })
+                    return res.status(200).send( {message: 'Login successful'} )
+                }
+                else {
+                    return res.status(401).send({ message: 'Login failed' })
+                }
+            })
+        </code>
+    </pre>
+
+</div>

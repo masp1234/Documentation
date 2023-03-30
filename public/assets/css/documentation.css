@@ -1,13 +1,16 @@
 pre {
-    background-color: rgb(54, 54, 54);
+    background-color: rgb(34, 33, 33);
     
 }
 
-p {
-    font-size: large
+ p {
+    font-size: 1.3em; 
 }
 
 #documentation-container {
     margin: 2em 10em;
     
+}
+code {
+    font-size: 1.2em;
 }

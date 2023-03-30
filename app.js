@@ -40,13 +40,16 @@ app.get('/admin', (req, res) => {
     }))
 })
 
+// returns pathName used to navigate to an endpoint and a displayName to display in the dropdown menu
 app.get('/api/documentation', (req, res) => {
     fs.readdir('public/pages/documentation/', (error, files) => {
-        // returns pathName used to navigate to an endpoint and a displayName to display in the dropdown menu
+        if (error) return res.status(500).send({ msg: error.message })
+        
         const fileNames = files.map(fileName => {
+            const slicedFileName = fileName.slice(0, -5)
             return {
-                pathName: fileName.slice(0, -5),
-                displayName: fileName.replaceAll('-', ' ').slice(0, -5)
+                pathName: slicedFileName,
+                displayName: slicedFileName.replaceAll('-', ' ')
             }
         })
         res.status(200).send({ data: fileNames })
@@ -60,7 +63,7 @@ app.get('/documentation/:pageName', (req, res) => {
         return res.status(404).send({ message: `The page with name: ${pageName} does not exist` })
     }
 
-    return res.send(renderPage(readPage(filePath), {
+    return res.status(200).send(renderPage(readPage(filePath), {
         tabTitle: pageName,
         cssLinks: ['<link rel="stylesheet" href="/assets/css/documentation.css">'],
         cookie: req.cookies['logged-in cookie']
@@ -93,11 +96,9 @@ app.post('/api/documentation', (req, res) => {
                      </div>`
 
     fs.writeFile(path.resolve(filePath), newPage, error => {
-        if (error) {
-            console.log(error)
-        }
+        if (error) return res.status(500).send({ message: 'Could not write to file' })
     })
-    return res.status(200).send( {message: 'success'} )
+    return res.status(200).send( {message: `${fileName} was created`} )
 })
 
 app.listen(PORT, error => {
