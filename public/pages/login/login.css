@@ -1,0 +1,11 @@
+#login-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1.5em 7em;
+    font-size: 1.3em;
+}
+input {
+    margin-top: 1em;
+    width: 30vw;
+    margin-bottom: 1em;
+}

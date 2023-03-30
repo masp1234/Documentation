@@ -13,7 +13,8 @@ app.use(cookieParser())
 
 
 const loginPage = renderPage(readPage('./public/pages/login/login.html'), {
-    tabTitle: 'Login'
+    tabTitle: 'Login',
+    cssLinks: ['<link rel="stylesheet" href="/pages/login/login.css">']
 })
 
 app.get('/', (req, res) => {
@@ -98,7 +99,7 @@ app.post('/api/documentation', (req, res) => {
     fs.writeFile(path.resolve(filePath), newPage, error => {
         if (error) return res.status(500).send({ message: 'Could not write to file' })
     })
-    return res.status(200).send( {message: `${fileName} was created`} )
+    return res.status(200).send( {message: `Success! A file with name '${fileName}' was created`} )
 })
 
 app.listen(PORT, error => {
