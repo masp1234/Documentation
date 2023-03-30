@@ -1,5 +1,5 @@
-import { BASE_URL } from "../../assets/js/util.js"
 import { renderDropdown } from "../../assets/js/page-select.js"
+
 document.getElementById('new-page-submit').addEventListener('click', async () => {
     const feedbackElement = document.getElementById('feedback')
     const pageName = document.getElementById('new-page-name').value
@@ -27,7 +27,7 @@ document.getElementById('new-page-submit').addEventListener('click', async () =>
         })
     }
 
-    const response = await fetch(`${BASE_URL}/api/documentation`, settings)
+    const response = await fetch('/api/documentation', settings)
     const data = await response.json();
     // TODO Reloader hele siden, men måske man kunne nøjes med Documentation dropdown?
     if (response.ok) await renderDropdown()

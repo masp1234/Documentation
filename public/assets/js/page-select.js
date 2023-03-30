@@ -1,8 +1,5 @@
-import { BASE_URL } from "./util.js"
-
-
 const renderDropdown = async () => {
-    const response = await fetch(`${BASE_URL}/api/documentation`)
+    const response = await fetch(`/api/documentation`)
     const documentationFiles = await response.json()
     
     const documentationDropdown = document.getElementById('documentation-dropdown')
@@ -10,7 +7,7 @@ const renderDropdown = async () => {
 
     documentationFiles.data.forEach(file => {
         const anchorElement = document.createElement('a')
-        anchorElement.href = `${BASE_URL}/documentation/${file.pathName}`
+        anchorElement.href = `/documentation/${file.pathName}`
         anchorElement.innerText = file.displayName
         anchorElement.classList.add('dropdown-item')
         documentationDropdown.appendChild(anchorElement)
