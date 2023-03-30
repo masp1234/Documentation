@@ -90,7 +90,7 @@ app.post('/api/documentation', (req, res) => {
     const filePath = `public/pages/documentation/${fileName}.html`
 
     if (fs.existsSync(filePath)) {
-        return res.status(409).send({ message: `A file with the name: ${fileName} already exists` })
+        return res.status(409).send({ message: `A file with the name '${fileName}' already exists` })
     }
     const newPage = `<div id="documentation-container">
                         ${req.body.pageContent}

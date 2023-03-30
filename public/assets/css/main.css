@@ -31,6 +31,7 @@ input, textarea, ::placeholder{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0em 1em;
 }
 .dropdown-item {
     font-size: large;
@@ -102,6 +103,7 @@ textarea {
   
 .dropdown-content a {
     display: block;
+    padding: 0.8em 0.5em;
     
   }
 
