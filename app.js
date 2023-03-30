@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser'
 const app = express()
 const PORT = 8080
 
-app.use(express.static('public'))
+app.use(express.static(path.resolve('public')))
 app.use(express.json())
 app.use(cookieParser())
 
